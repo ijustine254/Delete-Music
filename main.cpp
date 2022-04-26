@@ -24,14 +24,17 @@ LPCWSTR drive[13] = { L"A:\\", L"B:\\", L"C:\\", L"D:\\", L"E:\\", L"F:\\", L"G:
 
 
 int main() {
-
     UINT drives_num;
     int i;
+    // loop through fixed drives
     for (i = 0; i < 12; i++) {
         drives_num = GetDriveType(reinterpret_cast<LPCSTR>(drive[i]));
         if (drives_num == DRIVE_FIXED) {
-            // TODO: Pass Drive to listFiles func
-            listFiles("", [](const string &path) {
+            // convert LPCSTR to string
+            wstring st(drive[i]);
+            string drive_label(st.begin(), st.end());
+            // end of conversion
+            listFiles(drive_label, [](const string &path) {
                 string ext, str;
                 ext = path.substr(path.find_last_of('.')+1);
                 str = "mp3 mp4 3gp mkv avi webm avi ogg wav";
