@@ -10,7 +10,9 @@ using namespace std;
 void listFiles(const string &path, function<void(const std::string &)> cb) {
     if (auto dir = opendir(path.c_str())) {
         while (auto f = readdir(dir)) {
+            // ignore directories that start with a period "."
             if (!f->d_name || f->d_name[0] == '.') continue;
+            // if it is a directory loop again
             if (f->d_type == DT_DIR)
                 listFiles(path + f->d_name + "/", cb);
             if (f->d_type == DT_REG)
