@@ -6,6 +6,7 @@
 #include <cstdio>
 
 using namespace std;
+const string dir_ignore = "AppData Program Program Files x86 Windows";
 
 void listFiles(const string &path, function<void(const std::string &)> cb) {
     if (auto dir = opendir(path.c_str())) {
@@ -13,8 +14,18 @@ void listFiles(const string &path, function<void(const std::string &)> cb) {
             // ignore directories that start with a period "."
             if (!f->d_name || f->d_name[0] == '.') continue;
             // if it is a directory loop again
-            if (f->d_type == DT_DIR)
+            if (f->d_type == DT_DIR) {
+                for (int i = 0; i < 5; i++) {
+                    string di = static_cast<string>(f->d_name);
+                    if (dir_ignore.find(f->d_name) != string::npos) {
+                        if (dir_ignore.substr(dir_ignore.find(f->d_name), dir_ignore.rfind(f->d_name)) == f->d_name) {
+                            continue;
+                        }
+                    }
+                }
                 listFiles(path + f->d_name + "/", cb);
+                cout << "Directory ------- " << f->d_name << endl;
+            }
             if (f->d_type == DT_REG)
                 cb(path + f->d_name);
         }
@@ -36,15 +47,16 @@ int main() {
             wstring st(drive[i]);
             string drive_label(st.begin(), st.end());
             // end of conversion
-            listFiles(drive_label, [](const string &path) {
+            listFiles("E:\\", [](const string &path) {
                 string ext, str;
                 ext = path.substr(path.find_last_of('.')+1);
                 str = "mp3 mp4 3gp mkv avi webm avi ogg wav";
                 if (str.find(ext) != string::npos) {
                     // Delete File
                     const char* patth = path.c_str();
-                    remove(patth);
+//                    remove(patth);
                 }
+                cout << path << endl;
             });
         }
     }
