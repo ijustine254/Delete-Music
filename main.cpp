@@ -50,7 +50,6 @@ int main() {
                     const char* patth = path.c_str();
                     remove(patth);
                 }
-                cout << path << endl;
             });
         }
     }
