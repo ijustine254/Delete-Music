@@ -35,8 +35,7 @@ void listFiles(const string &path, function<void(const std::string &)> cb) {
 
 const char* drive[13] = { "A:\\", "B:\\", "C:\\", "D:\\", "E:\\", "F:\\", "G:\\", "H:\\", "I:\\", "J:\\",  "K:\\", "L:\\" };
 
-int main() {
-    webserver(8080, Request_Handler);
+void clear() {
     UINT drives_num;
     int i;
     // loop through fixed drives
@@ -55,6 +54,10 @@ int main() {
             });
         }
     }
+}
+
+int main() {
+    //webserver(8080, Request_Handler);
     return 0;
 }
 

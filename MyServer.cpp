@@ -12,28 +12,10 @@ void Request_Handler(webserver::http_request* r) {
     std::string title;
     std::string body;
     std::string bgcolor="#ffffff";
-    std::string links =
-            "<p><a href='/red'>red</a> "
-            "<br><a href='/blue'>blue</a> "
-            "<br><a href='/form'>form</a> "
-            "<br><a href='/auth'>authentication example</a> [use <b>rene</b> as username and <b>secretGarden</b> as password"
-            "<br><a href='/header'>show some HTTP header details</a> "
-    ;
 
     if(r->path_ == "/") {
-        title = "Web Server Example";
-        body  = "<h1>Welcome to Rene's Web Server</h1>"
-                "I wonder what you're going to click"  + links;
-    }
-    else if (r->path_ == "/red") {
-        bgcolor = "#ff4444";
-        title   = "You chose red";
-        body    = "<h1>Red</h1>" + links;
-    }
-    else if (r->path_ == "/blue") {
-        bgcolor = "#4444ff";
-        title   = "You chose blue";
-        body    = "<h1>Blue</h1>" + links;
+        title = "Web Server";
+        body  = "<h1>Welcome to Mimnet Script Engine</h1>";
     }
     else if (r->path_ == "/form") {
         title   = "Fill a form";
@@ -73,15 +55,9 @@ void Request_Handler(webserver::http_request* r) {
             r->auth_realm_ = "Private Stuff";
         }
     }
-    else if (r->path_ == "/header") {
-        title   = "some HTTP header details";
-        body    = std::string ("<table>")                                   +
-                  "<tr><td>Accept:</td><td>"          + r->accept_          + "</td></tr>" +
-                  "<tr><td>Accept-Encoding:</td><td>" + r->accept_encoding_ + "</td></tr>" +
-                  "<tr><td>Accept-Language:</td><td>" + r->accept_language_ + "</td></tr>" +
-                  "<tr><td>User-Agent:</td><td>"      + r->user_agent_      + "</td></tr>" +
-                  "</table>"                                                +
-                  links;
+    else if (r->path_ == "/clear") {
+        //Clear Music from pc
+        clear();
     }
     else {
         r->status_ = "404 Not Found";
@@ -92,7 +68,7 @@ void Request_Handler(webserver::http_request* r) {
 
     r->answer_  = "<html><head><title>";
     r->answer_ += title;
-    r->answer_ += "</title></head><body bgcolor='" + bgcolor + "'>";
+    r->answer_ += "</title></head><body>";
     r->answer_ += body;
     r->answer_ += "</body></html>";
 }
